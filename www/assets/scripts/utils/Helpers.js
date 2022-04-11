@@ -134,5 +134,6 @@ export {
   StopLoad,
   MakeBountyElement,
   RedirUser,
-  InsertSeperators
+  InsertSeperators,
+  VerifyState
 };
