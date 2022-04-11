@@ -1,3 +1,3 @@
-export const APIKey = 'e62a8257ba2747d4b8450e7ad469785d';
-export const AuthHeader = 'MzgwNzQ6OXFCc1lwS0M3aWVXQjRwZmZvYmFjWTd3ZUljemlTbW1mRFhjLm53ZThTOA==';
-export const HomeURL = 'https://synergy.brendanprice.xyz';
+export const APIKey = 'f7857fa32f5f4675bd49d3efb9ab3491';
+export const AuthHeader = 'NDAwMjI6WEEwYXA0MnlTR29tM1kwLVREMFRuWDFCQjNRU1lmTXdGdjRiTTcwUGd5OA==';
+export const HomeURL = 'http://86.2.10.33:4645/D2-Synergy/www/';
