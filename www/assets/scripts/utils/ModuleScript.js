@@ -1,6 +1,7 @@
 import { userStruct } from '../user.js';
 
-const log = console.log.bind(console);
+const log = console.log.bind(console),
+      localStorage = window.localStorage;
 
 // Check if state query parameter exists in URL
 const VerifyState = async () => {
@@ -40,7 +41,7 @@ const ParseChar = (classType) => {
             r='Warlock';
             break;
         default:
-            console.error('could not parse character, parseChar() @function');
+            console.error('Could not parse character, parseChar() @function');
     };
     return r;
 };
@@ -48,23 +49,23 @@ const ParseChar = (classType) => {
 
 // Make element for entry data when hash is found in definitions
 // @obj {param}
-const MakeBountyElement = (param) => {
-    
-    const itemPrgContainer = document.createElement('div'),
+const MakeBountyElement = async (param) => {
+
+    let itemPrgContainer = document.createElement('div'),
         itemOverlay = document.createElement('div'),
+        itemExpire = document.createElement('img'),
         itemTitle = document.createElement('div'),
         itemType = document.createElement('div'),
         itemDesc = document.createElement('div'),
-        hr = document.createElement('hr'),
-        item = document.createElement('img');
-
+        item = document.createElement('img'),
+        hr = document.createElement('hr');
 
 
     // Create bottom element
     item.className = `bounty`;
     item.id = `${param.hash}`;
-    document.querySelector('#bountyItems').appendChild(item);
     item.src = `https://www.bungie.net${param.displayProperties.icon}`;
+    document.querySelector('#bountyItems').appendChild(item);
 
     // Create overlay element
     itemOverlay.className = `itemContainer`;
@@ -81,10 +82,21 @@ const MakeBountyElement = (param) => {
 
     // Create item progress and push to DOM
     let rootIndex = param.objectiveDefinitions;
+    log(param)
     for (let indexCount=0; indexCount < rootIndex.length; indexCount++) {
 
         let itemPrgCounter = document.createElement('div'),
             itemPrgDesc = document.createElement('div');
+
+        // Check if progess string exceeds char limit
+        if (rootIndex[indexCount].progressDescription.length >= 24) {
+
+            var rt = rootIndex[indexCount].progressDescription.slice(0, 24);
+            if (rt.charAt(rt.length - 1) === ' ') {
+                rt = rt.slice(0, rt.length - 1); // Remove deadspaces at the end of strings
+            };
+            rootIndex[indexCount].progressDescription = rt + '..';
+        };
 
         itemPrgCounter.className = 'itemPrgCounter';
         itemPrgDesc.className = 'itemPrgDesc';
@@ -102,8 +114,9 @@ const MakeBountyElement = (param) => {
         itemPrgDesc.style.paddingBottom = '20px';
         
         for (let padC=1; padC < rootIndex.length; padC++) { // Seperate objectives
+
             var offset = paddingStepAmount*indexCount;
-            if (offset!==0) {
+            if (offset !== 0) {
                 itemPrgCounter.style.paddingBottom = `${parseInt(itemPrgCounter.style.paddingBottom.split('px')[0]) + Math.trunc(offset)}px`;
                 itemPrgDesc.style.paddingBottom = `${parseInt(itemPrgDesc.style.paddingBottom.split('px')[0]) + Math.trunc(offset)}px`;
             };
@@ -172,7 +185,8 @@ var ParseBounties = (charInventory, utils) => {
     charInventory.forEach(v => {
         let item = utils.definitions[v.itemHash];
         if (item.itemType === 26) {
-            item.props = [];
+            item.expired = new Date(v.expirationDate) < new Date(); // Check if bounty is expired
+            item.props = []; // Make empty array for filters
             charBounties.push(item);
             amountOfBounties++;
         };
@@ -187,7 +201,6 @@ var PushToDOM = (bountyArr, utils) => {
     Object.keys(bountyArr).forEach(v => {
 
         let group = bountyArr[v];
-
         if (group.length !== 0) {
             group.forEach(item => {
                 utils.MakeBountyElement(item);
@@ -344,6 +357,23 @@ var ReturnSeasonPassLevel = async (seasonInfo, prestigeSeasonInfo) => {
 };
 
 
+// Wrappers for userCache
+var CacheAuditItem = async (key, value) => {
+    var userCache = JSON.parse(localStorage.getItem('userCache'));
+    userCache[key] = value;
+    localStorage.setItem('userCache', JSON.stringify(userCache));
+};
+var CacheRemoveItem = async (key, value) => {
+    var userCache = JSON.parse(localStorage.getItem('userCache'));
+    delete userCache[key];
+    localStorage.setItem('userCache', JSON.stringify(userCache));
+};
+var CacheReturnItem = (key, value) => {
+    var userCache = JSON.parse(localStorage.getItem('userCache'));
+    return userCache[key];
+};
+
+
 
 export {
     VerifyState,
@@ -362,5 +392,8 @@ export {
     CalcXpYield,
     CalculateXpForBrightEngram,
     CalculatePercentage,
-    ReturnSeasonPassLevel
+    ReturnSeasonPassLevel,
+    CacheAuditItem,
+    CacheRemoveItem,
+    CacheReturnItem
 };

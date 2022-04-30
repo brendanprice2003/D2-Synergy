@@ -5,7 +5,6 @@
     <link rel="stylesheet" href="assets/styles/src.css">
     <link rel="stylesheet" href="assets/styles/item.css">
     <link rel="stylesheet" href="assets/styles/viewports.css">
-    <link rel="stylesheet" href="assets/styles/table.css">
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -14,7 +13,6 @@
     <script type="module" src="assets/scripts/utils/MatchProps.js"></script>
 
     <link rel="shortcut icon" href="#">
-
     <title>D2 Synergy</title>
 </head>
 
@@ -78,7 +76,7 @@
             <div id="statsContainer">
                 <div id="statsTitleContainer">
                     <div id="statsTitle">Potential Yield</div>
-                    <div id="queryDiv">Stats aren't currently calculated with character modifiers</div>
+                    <div id="queryDiv">Stats aren't calculated with XP modifiers. Ghost mods are however.</div>
                     <img id="statsTitleQuery" src="./assets/icons/interfaceHelp.webp">
                 </div>
                 <div id="statsListContainer">
@@ -88,7 +86,11 @@
                 </div>
                 <div id="btnSynergyView">View Synergy</div>
             </div>
+        </div>
 
+        <div id="loadingContentContainer">
+            <img id="loadingIcon" src="assets/icons/rocketShip.webp">
+            <div id="loadingText">Loading Your Mum</div>
         </div>
     
         <div id="contentDisplay">
@@ -99,17 +101,18 @@
             </div>
 
             <div id="pursuitsContainer">
+
                 <div id="bountyDisplayContainer">
                     <div id="displayTitle_Bounties">Bounties</div>
                     <hr class="titleBreaker">
-                    <div id="noItemsTooltip"></div>
                     <div id="filterContentContainer">
                         <div id="filters"></div>
                         <div class="filter" id="removeFiltersID">
-                            <div class="propName" style="color: white;">Clear Filters</div>
+                            <div class="propName" style="color: orangered;">Clear Filters</div>
                         </div>
                     </div>
                     <div id="btnHideFilters">Toggle Filters</div>
+                    <div id="noItemsTooltip"></div>
                     <div id="bountyItems"></div>
                     <br>
                     <div id="itemStats">
@@ -137,17 +140,12 @@
                 <hr class="titleBreaker">
                 <div id="levellingStatsDisplay">
                     <div id="totalBrightEngrams">Next Bright Engram: </div>
-                </div>
-                <hr class="titleBreaker">
-                <div id="levellingContentDisplay">
                     <div id="currentSpLevel"></div>
                     <!-- <div id="artifactBonus"></div> -->
                     <div id="totalXpCollectedThisSeason"></div>
                 </div>
             </div>
-
         </div>
-
     </div>
     <div id="overlays"></div>
 </body>

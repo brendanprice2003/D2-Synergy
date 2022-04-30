@@ -98,11 +98,6 @@ h2 {
     letter-spacing: 1px;
 }
 
-#bountyDisplayContainer {
-    /* margin-top: 13px;
-    margin-left: 28px; */
-}
-
 #loadoutsContainer {
     display: none;
     margin-top: 13px;
@@ -110,6 +105,7 @@ h2 {
 }
 
 #pursuitsContainer {
+    display: none;
     margin-top: 13px;
     margin-left: 28px;
 }
@@ -173,6 +169,20 @@ h2 {
     font-family: "Neue Haas Grotesk Display", "Destiny Symbols", Segoe-MDL, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", NotoColorEmoji, "Segoe UI Symbol", "Android Emoji", EmojiSymbols;
     cursor: pointer;
     user-select: none;
+    transition: 0.25s;
+}
+
+#cgDefaultLoadouts:hover {
+    color: white;
+    transition: 0.25s;
+}
+#cgPursuits:hover {
+    color: white;
+    transition: 0.25s;
+}
+#cgLevelsProgression:hover {
+    color: white;
+    transition: 0.25s;
 }
 
 #questDisplayContainer {
@@ -258,7 +268,7 @@ h2 {
     position: absolute;
     display: none;
     padding: 3px;
-    bottom: 180px;
+    bottom: 125px;
     left: 95px;
     width: 90px;
     color: rgb(205, 203, 203);
@@ -267,6 +277,12 @@ h2 {
     background-color: rgb(49, 49, 49);
     border: 1px solid rgb(88, 88, 88);
     border-radius: 3px;
+}
+
+#loadingContentContainer {
+    display: none;
+    margin-top: 60px;
+    text-align: center;
 }
 
 #filterContentContainer {
@@ -293,6 +309,18 @@ h2 {
     border-radius: 6px;
     cursor: pointer;
     font-family: "Neue Haas Grotesk Display", "Destiny Symbols", Segoe-MDL, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", NotoColorEmoji, "Segoe UI Symbol", "Android Emoji", EmojiSymbols;
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    transition: 0.25s;
+}
+
+#btnSynergyView:hover {
+    color: white;
+    border-color: white;
+    transition: all 0.25s;
 }
 
 #levellingContentDisplay > div {
