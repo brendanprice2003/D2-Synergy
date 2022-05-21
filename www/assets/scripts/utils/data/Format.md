@@ -1,5 +1,10 @@
 ### Formats (Standards) for Pursuit Entries
 
+** This ReadMe will cover: **
+
+- Pursuit structure
+- 
+
 #### Base Structure
 
 ```
