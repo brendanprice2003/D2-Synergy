@@ -57,11 +57,8 @@ Or you can go along and enter in all the indexes anyways. This would just mean t
 
 ```
 "743499071": {
-    "Destination": [],
     "ActivityMode": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,24,25,26],
-    "DamageType": [],
     "ItemCategory": [9],
-    "AmmoType": [],
     "KillType": [4]
 }
 ```
