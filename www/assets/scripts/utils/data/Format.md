@@ -1,11 +1,13 @@
-### Formats (Standards) for Pursuit Entries
+# Formats (Standards) for Pursuit Entries
 
-** This ReadMe will cover: **
+## Contents:
+- General String Matching
+- Functionality
+    - All indexes match
+    - No indexes match
+<br><br>
 
-- Pursuit structure
-- 
-
-#### Base Structure
+## General String Matching
 
 ```
 "<item.hash>": {
@@ -21,9 +23,13 @@
 Each entry has the same props as shown above, however, each prop key has an array as the value. This array determines what identifier relates to that property in `SynergyDefinitions`. Using the `SynergyDefinitions` you can find the corresponding indexes for each prop. 
 
 *Note: I moved to using string-based arrays instead of `key:value` pairs with item hashes.*
+<br>
+<br>
 
 
-#### Functionality
+## Functionality
+
+###  "No indexes match"
 
 An entry may not have all the props that are shown above in the exemplar pursuit item. This is because when the prop does not have matching identifiers, it is omitted. (Below)
 
@@ -47,8 +53,11 @@ The above is the response from the API for that pursuit. From the pursuit descri
 ```
 
 So we add the corresponding indexes for each prop and omit the props that do not contain related indexes.
-
 <br>
+<br>
+
+### "All indexes match"
+
 If all the indexes from the related identifier (Arrays in `SynergyDefinitions`) can be matched to that prop, then you may keep either keep the prop but leave the value array empty like so:
 
 ```
