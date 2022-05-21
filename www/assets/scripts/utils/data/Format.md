@@ -33,7 +33,6 @@ An entry may not have all the props that are shown above in the exemplar pursuit
 ```
 The above is the response from the API for that pursuit. From the pursuit description we are able to determine what props are related to the pursuit, using that description.
 
-<br>
 
 ```
 "709535749": {
