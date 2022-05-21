@@ -13,7 +13,7 @@
 }
 ```
 
-Each entry has the same props as shown above, however, each prop key has an array as the value. This array determines what identifier relates to that property in `SynergyDefinitions`. Using the `SynergyDefinitions` you can find the corresponding indexes for each prop. Note: I moved to using string-based arrays instead of `key:value` pairs with item hashes.
+Each entry has the same props as shown above, however, each prop key has an array as the value. This array determines what identifier relates to that property in `SynergyDefinitions`. Using the `SynergyDefinitions` you can find the corresponding indexes for each prop. *Note: I moved to using string-based arrays instead of `key:value` pairs with item hashes.*
 
 
 An entry may not have all the props that are shown above in the exemplar pursuit item. This is because when the prop does not have matching identifiers, it is omitted. (Below)
