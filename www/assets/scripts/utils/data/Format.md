@@ -18,6 +18,8 @@ Each entry has the same props as shown above, however, each prop key has an arra
 *Note: I moved to using string-based arrays instead of `key:value` pairs with item hashes.*
 
 
+#### Functionality
+
 An entry may not have all the props that are shown above in the exemplar pursuit item. This is because when the prop does not have matching identifiers, it is omitted. (Below)
 
 ```
