@@ -54,8 +54,6 @@ If all the indexes from the related identifier (Arrays in `SynergyDefinitions`) 
 }
 ```
 
-<br>
-
 Or you can go along and enter in all the indexes anyways. This would just mean that it's *less* readable somewhat since you would have to look through all the indexes and check to see if they are all included, or if one is being excluded.
 
 ```
