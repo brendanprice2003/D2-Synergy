@@ -6,10 +6,10 @@ import {
     DamageType,
     AmmoType,
     ItemCategory,
-    KillType } from './SynergyDefinitions.js';
+    KillType,
+    CrucibleGameModes } from './SynergyDefinitions.js';
 
     const log = console.log.bind(console);
-
     var bountyPropCount = {};
 
 
@@ -24,37 +24,36 @@ const PushProps = async () => {
 
         let hash = userStruct.charBounties[i].hash,
             entry = bountyHashes[hash];
-        var counters = {};
 
-        for (let prop in entry) {
+        for (let property in entry) {
 
-            if (entry[prop].length !== 0) {
+            if (entry[property].length !== 0) {
 
                 var propNames = [];
-                for (let foo of entry[prop]) {
+                for (let index of entry[property]) {
 
                     var arr = {};
-                    if (prop === 'Destination') {
+                    if (property === 'Destination') {
                         arr=Destination;
                     }
-                    else if (prop === 'ActivityMode') {
+                    else if (property === 'ActivityMode') {
                         arr=ActivityMode;
+                        ActivityModeBuilder(index, entry, property);
                     }
-                    else if (prop === 'DamageType') {
+                    else if (property === 'DamageType') {
                         arr=DamageType;
                     }
-                    else if (prop === 'ItemCategory') {
+                    else if (property === 'ItemCategory') {
                         arr=ItemCategory;
                     }
-                    else if (prop === 'AmmoType') {
+                    else if (property === 'AmmoType') {
                         arr=AmmoType;
                     }
-                    else if (prop === 'KillType') {
+                    else if (property === 'KillType') {
                         arr=KillType;
                     };
-                    propNames.push(arr[foo]);
+                    propNames.push(arr[index]);
                 };
-                log(propNames);
 
                 // Wtf does this even do?
                 for (let bar of propNames) {
@@ -67,14 +66,6 @@ const PushProps = async () => {
                         bountyPropCount[bar] += 1;
                     };
 
-                    if (counters[bar] === undefined) {
-                        counters[bar] = 0;
-                        counters[bar] += 1;
-                    }
-                    else if (counters[bar] !== undefined) {
-                        counters[bar] += 1;
-                    };
-
                     userStruct.charBounties[i].props.push(bar);
                 };
             };
@@ -82,5 +73,19 @@ const PushProps = async () => {
     };
 };
 
+
+const ActivityModeBuilder = (index, entry, property) => {
+
+    // If activity mode is crucible
+    if (index === 3) {
+        for (var gameMode in CrucibleGameModes) {
+            if (CrucibleGameModes[gameMode] in entry[property]) {
+                log(entry[property]);
+            };
+        };
+        // entry[property].push(4,5,6,7,8,9,10,11,12,13,17,21,22,23,24,25);
+    };
+};
+ 
 
 export { bountyPropCount, PushProps };

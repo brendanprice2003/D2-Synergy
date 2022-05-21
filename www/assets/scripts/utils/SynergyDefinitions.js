@@ -147,6 +147,26 @@ const DamageTypeHash = {
     Stasis: 151347233, // 4
 };
 
+// Indexes for crucible game modes
+const CrucibleGameModes = {
+    'mayhem': 4, 
+    'control': 5, 
+    'breakthrough': 6, 
+    'countdown': 7, 
+    'elimination': 8, 
+    'doubles': 9, 
+    'supremacy': 10, 
+    'rumble': 11, 
+    'survival': 12, 
+    'ironBanner': 13, 
+    'trials': 17, 
+    'clash': 21, 
+    'momentum': 22, 
+    'scorched': 23, 
+    'lockdown': 24, 
+    'showdown': 25,
+};
+
 // Hashes for destinations
 const Destination = [
     'EDZ', //0
@@ -258,4 +278,5 @@ export {
   AmmoType,
   ItemCategory,
   KillType,
+  CrucibleGameModes,
 };

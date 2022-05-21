@@ -33,7 +33,7 @@ import {
 import { bountyPropCount, PushProps } from './utils/MatchProps.js';
 import { AddEventListeners } from './utils/Events.js';
 
-
+debugger;
 
 // Validate state parameter
 VerifyState();
@@ -480,7 +480,7 @@ var CreateFilters = async (initArrStr, propCount) => {
     // Create a filter for each prop
     for (let v in propCount) {
 
-        if (propCount[v] > 1) {
+        if (propCount[v] > 2) {
             
             let filterContainer = document.createElement('div'),
                   filterContent = document.createElement('div');
