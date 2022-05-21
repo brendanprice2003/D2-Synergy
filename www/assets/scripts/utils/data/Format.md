@@ -21,6 +21,7 @@ Each entry has the same props as shown above, however, each prop key has an arra
 #### Functionality
 
 An entry may not have all the props that are shown above in the exemplar pursuit item. This is because when the prop does not have matching identifiers, it is omitted. (Below)
+
 ```
 {
   "displayProperties": {
@@ -30,9 +31,9 @@ An entry may not have all the props that are shown above in the exemplar pursuit
     "hasIcon": true
 }
 ```
+The above is the response from the API for that pursuit. From the pursuit description we are able to determine what props are related to the pursuit, using that description.
 
 <br>
-The above is the response from the API for that pursuit. From the pursuit description we are able to determine what props are related to the pursuit, using that description.
 ```
 "709535749": {
     "Destination": [4],
@@ -42,8 +43,8 @@ The above is the response from the API for that pursuit. From the pursuit descri
 
 So we add the corresponding indexes for each prop and omit the props that do not contain related indexes.
 
+<br>
 If all the indexes from the related identifier (Arrays in `SynergyDefinitions`) can be matched to that prop, then you may keep either keep the prop but leave the value array empty like so:
-
 
 ```
 "743499071": {
@@ -56,7 +57,6 @@ If all the indexes from the related identifier (Arrays in `SynergyDefinitions`) 
 <br>
 
 Or you can go along and enter in all the indexes anyways. This would just mean that it's *less* readable somewhat since you would have to look through all the indexes and check to see if they are all included, or if one is being excluded.
-
 
 ```
 "743499071": {
