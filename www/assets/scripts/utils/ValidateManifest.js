@@ -4,7 +4,9 @@ const requiredTables = [
     'DestinyInventoryItemDefinition',
     'DestinyObjectiveDefinition',
     'DestinySeasonDefinition',
-    'DestinySeasonPassDefinition'
+    'DestinySeasonPassDefinition',
+    'DestinyInventoryBucketDefinition',
+    'DestinyEquipmentSlotDefinition'
 ];
 
 var log = console.log.bind(console),

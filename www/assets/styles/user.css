@@ -11,6 +11,7 @@
     margin-right: auto;
     left: 0;
     right: 0;
+    overflow: auto;
 }
 
 h2 {
@@ -24,10 +25,11 @@ h2 {
 }
 
 #contentDisplay {
-    display: none;
-    margin-left: 30px;
+    margin-left: 250px;
+    max-width: 100%;
+    min-width: 30%;
     float: left;
-    width: 65%;
+    z-index: 2;
 }
 
 #subTitleContainer {
@@ -149,6 +151,7 @@ h2 {
 #categories > div {
     padding-top: 7px;
     padding-bottom: 7px;
+    width: 220px;
     color: rgb(205, 203, 203);
     letter-spacing: 1px;
     font-family: "Neue Haas Grotesk Display", "Destiny Symbols", Segoe-MDL, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", NotoColorEmoji, "Segoe UI Symbol", "Android Emoji", EmojiSymbols;
@@ -177,10 +180,11 @@ h2 {
 /* char selects */
 
 #sideSelectionBar {
+    position: fixed;
+    display: grid;
     margin-top: 15px;
     margin-left: 15px;
-    width: auto;
-    float: left;
+    width: 15%;
 }
 
 #charactersContainer {
@@ -188,6 +192,7 @@ h2 {
 }
 
 #charactersContainer > div {
+    width: 220px;
     cursor: pointer;
     user-select: none;
     -moz-user-select: none;
@@ -322,4 +327,44 @@ h2 {
     padding-bottom: 3px;
     color: rgb(205, 203, 203);
     font-family: "Neue Haas Grotesk Display", "Destiny Symbols", Segoe-MDL, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", NotoColorEmoji, "Segoe UI Symbol", "Android Emoji", EmojiSymbols;
+}
+
+
+
+#weaponsContainer {
+    display: none;
+    margin-top: 50px;
+    width: 220px;
+}
+
+#weaponsContainer > div {
+    color: rgb(205, 203, 203);
+    font-family: "Neue Haas Grotesk Display", "Destiny Symbols", Segoe-MDL, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", NotoColorEmoji, "Segoe UI Symbol", "Android Emoji", EmojiSymbols;
+    letter-spacing: 1px;
+}
+
+#energyContainer {
+    margin-top: 8px;
+}
+
+#powerContainer {
+    margin-top: 8px;
+}
+
+#kineticWeapons {
+    margin-top: 4px;
+    height: 75px;
+    border: 1px solid red;
+}
+
+#energyWeapons {
+    margin-top: 4px;
+    height: 75px;
+    border: 1px solid red;
+}
+
+#powerWeapons {
+    margin-top: 4px;
+    height: 75px;
+    border: 1px solid red;
 }

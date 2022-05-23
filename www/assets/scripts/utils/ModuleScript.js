@@ -1,5 +1,6 @@
 import { itemTypeKeys } from "./SynergyDefinitions.js";
 import { LoadCharacter, userStruct, homeUrl } from "../user.js";
+import { ReturnEntry } from "./ValidateManifest.js";
 
 const log = console.log.bind(console),
       localStorage = window.localStorage,
@@ -63,7 +64,7 @@ const MakeBountyElement = async (param) => {
 
 
     // Create bottom element
-    item.className = `bounty`;
+    item.className = `item`;
     item.id = `${param.hash}`;
     item.src = `https://www.bungie.net${param.displayProperties.icon}`;
     document.querySelector('#bountyItems').appendChild(item);
@@ -181,6 +182,179 @@ const MakeBountyElement = async (param) => {
 };
 
 
+// Make general item element
+const MakeItemElement = (param, type) => {
+
+    let item = document.createElement('img');
+
+    item.className = 'item2 grabElement';
+    item.draggable = true;
+    item.src = `https://www.bungie.net/${param.displayProperties.icon}`;
+    document.querySelector(`#${type.toLowerCase()}Items`).appendChild(item);
+
+    var img = document.createElement("img");
+        img.src = `https://www.bungie.net/${param.displayProperties.icon}`;
+
+    item.addEventListener("dragstart", (e) => {
+        e.dataTransfer.setDragImage(img, 0, 0);
+    });
+};
+
+
+// Load weapons
+const LoadWeapons = async (profileInventory, characterInventories, definitions) => {
+
+    // Can no longer be called via user input
+    userStruct.bools.characterWeaponsLoaded = true;
+
+    var bucketDefinition = await ReturnEntry('DestinyInventoryBucketDefinition'),
+        equippingBlockDefinition = await ReturnEntry('DestinyEquipmentSlotDefinition');
+
+    // Load and push vault contents
+    profileInventory.items.forEach(v => {
+
+        let rt = definitions[v.itemHash];
+        if (rt.itemType === 3) {
+            
+            let typeIdentifier = equippingBlockDefinition[rt.equippingBlock.equipmentSlotTypeHash].displayProperties.name.split(' ')[0]; // "Kinetic", etc.
+            if (typeIdentifier === 'Kinetic') {
+                rt.subWeaponTypeIdentifier = typeIdentifier;
+                rt.weaponRarityLevel = rt.itemTypeAndTierDisplayName.split(' ')[0];
+                userStruct.characterWeapons[typeIdentifier].push(rt);
+            }
+            else if (typeIdentifier === 'Energy') {
+                rt.subWeaponTypeIdentifier = typeIdentifier;
+                rt.weaponRarityLevel = rt.itemTypeAndTierDisplayName.split(' ')[0];
+                userStruct.characterWeapons[typeIdentifier].push(rt);
+            }
+            else if (typeIdentifier === 'Power') {
+                rt.subWeaponTypeIdentifier = typeIdentifier;
+                rt.weaponRarityLevel = rt.itemTypeAndTierDisplayName.split(' ')[0];
+                userStruct.characterWeapons[typeIdentifier].push(rt);
+            };
+        };
+    });
+
+    Object.keys(userStruct['characters']).forEach(characterId => {
+
+        // Load and push character contents
+        if (Object.keys(characterInventories[characterId].items).length !== 0) {
+            characterInventories[characterId].items.forEach(v => {
+
+                let rt = definitions[v.itemHash];
+                if (rt.itemType === 3) {
+    
+                    let typeIdentifier = bucketDefinition[v.bucketHash].displayProperties.name.split(' ')[0]; // "Kinetic", etc.
+                    if (typeIdentifier === 'Kinetic') {
+                        rt.subWeaponTypeIdentifier = typeIdentifier;
+                        rt.weaponRarityLevel = rt.itemTypeAndTierDisplayName.split(' ')[0];
+                        userStruct.characterWeapons[typeIdentifier].push(rt);
+                    }
+                    else if (typeIdentifier === 'Energy') {
+                        rt.subWeaponTypeIdentifier = typeIdentifier;
+                        rt.weaponRarityLevel = rt.itemTypeAndTierDisplayName.split(' ')[0];
+                        userStruct.characterWeapons[typeIdentifier].push(rt);
+                    }
+                    else if (typeIdentifier === 'Power') {
+                        rt.subWeaponTypeIdentifier = typeIdentifier;
+                        rt.weaponRarityLevel = rt.itemTypeAndTierDisplayName.split(' ')[0];
+                        userStruct.characterWeapons[typeIdentifier].push(rt);
+                    };
+                };
+            });
+        };
+    });
+
+
+    // Loop over each children array in characterWeapons and sort via rarity
+    // Loop over each children array in characterWeapons and sort via power // TBA
+    // Push items to DOM
+    userStruct.characterWeapons.Kinetic.sort(SortByRarity);
+    userStruct.characterWeapons.Energy.sort(SortByRarity);
+    userStruct.characterWeapons.Power.sort(SortByRarity);
+
+    userStruct.characterWeapons.Kinetic.forEach(v => MakeItemElement(v, v.subWeaponTypeIdentifier));
+    userStruct.characterWeapons.Energy.forEach(v => MakeItemElement(v, v.subWeaponTypeIdentifier));
+    userStruct.characterWeapons.Power.forEach(v => MakeItemElement(v, v.subWeaponTypeIdentifier));
+};
+
+
+// Sorts items via power level
+var SortByPower = (a, b) => {
+    log(a, b);
+};
+
+
+// Sorts items via rarity
+var SortByRarity = (a, b) => {
+
+    // We check against this, when sorting the object
+    var keys = [
+        'Exotic',
+        'Legendary',
+        'Rare',
+        'Uncommon',
+        'Common'
+    ];
+
+    let stackLabelA = a.weaponRarityLevel,
+        stackLabelB = b.weaponRarityLevel;
+    
+    // Check against previous and first index
+    if (keys.indexOf(stackLabelA) < keys.indexOf(stackLabelB)) {
+        return -1;
+    }
+    else if (keys.indexOf(stackLabelA) > keys.indexOf(stackLabelB)) {
+        return 1;
+    };
+    return 0;
+};
+
+
+// Sorts by index of item in itemTypeKeys
+var SortBountiesByType = (a, b) => {
+
+    let stackLabelA = a.inventory.stackUniqueLabel,
+        stackLabelB = b.inventory.stackUniqueLabel,
+        stackTypeA,
+        stackTypeB;
+    
+    // Remove numbers & get key names from stackUniqueLabel even if it contains _
+    stackLabelA.split('.').forEach(v => {
+        let keyFromStack = v.replace(/[0-9]/g, '');
+        keyFromStack.includes('_') ? keyFromStack.split('_').forEach(x => itemTypeKeys.includes(x) ? stackTypeA = x : null) : itemTypeKeys.includes(v.replace(/[0-9]/g, '')) ? stackTypeA = v.replace(/[0-9]/g, '') : null;
+    });
+    stackLabelB.split('.').forEach(v => {
+        let keyFromStack = v.replace(/[0-9]/g, '');
+        keyFromStack.includes('_') ? keyFromStack.split('_').forEach(x => itemTypeKeys.includes(x) ? stackTypeB = x : null) : itemTypeKeys.includes(v.replace(/[0-9]/g, '')) ? stackTypeB = v.replace(/[0-9]/g, '') : null;
+    });
+
+    // Sort items by returning index
+    if (itemTypeKeys.indexOf(stackTypeA) < itemTypeKeys.indexOf(stackTypeB)){
+        return -1;
+    };
+    if (itemTypeKeys.indexOf(stackTypeA) > itemTypeKeys.indexOf(stackTypeB)){
+        return 1;
+    };
+    return 0;
+};
+
+
+// Sort bounties via bounty type
+var SortByType = (bountyArr, utils) => {
+
+    Object.keys(bountyArr).forEach(v => {
+
+        let group = bountyArr[v];
+
+        if (group.length !== 0) {
+            group.sort(utils.sortBountiesByType);
+        };
+    });
+    return bountyArr;
+};
+
+
 // Start loading sequence
 const StartLoad = () => {
     document.getElementById('slider').style.display = 'block';
@@ -277,50 +451,6 @@ var SortByGroup = (charBounties, utils) => {
         };
     });
     return utils.bountyArr;
-};
-
-
-// Sort bounties via bounty type
-var SortByType = (bountyArr, utils) => {
-
-    Object.keys(bountyArr).forEach(v => {
-
-        let group = bountyArr[v];
-
-        if (group.length !== 0) {
-            group.sort(utils.sortBountiesByType);
-        };
-    });
-    return bountyArr;
-};
-
-
-// Sorts by index of item in itemTypeKeys
-var SortBountiesByType = (a, b) => {
-
-    var stackLabelA = a.inventory.stackUniqueLabel,
-        stackLabelB = b.inventory.stackUniqueLabel,
-        stackTypeA,
-        stackTypeB;
-    
-    // Remove numbers & get key names from stackUniqueLabel even if it contains _
-    stackLabelA.split('.').forEach(v => {
-        let keyFromStack = v.replace(/[0-9]/g, '');
-        keyFromStack.includes('_') ? keyFromStack.split('_').forEach(x => itemTypeKeys.includes(x) ? stackTypeA = x : null) : itemTypeKeys.includes(v.replace(/[0-9]/g, '')) ? stackTypeA = v.replace(/[0-9]/g, '') : null;
-    });
-    stackLabelB.split('.').forEach(v => {
-        let keyFromStack = v.replace(/[0-9]/g, '');
-        keyFromStack.includes('_') ? keyFromStack.split('_').forEach(x => itemTypeKeys.includes(x) ? stackTypeB = x : null) : itemTypeKeys.includes(v.replace(/[0-9]/g, '')) ? stackTypeB = v.replace(/[0-9]/g, '') : null;
-    });
-
-    // Sort items by returning index
-    if (itemTypeKeys.indexOf(stackTypeA) < itemTypeKeys.indexOf(stackTypeB)){
-        return -1;
-    };
-    if (itemTypeKeys.indexOf(stackTypeA) > itemTypeKeys.indexOf(stackTypeB)){
-        return 1;
-    };
-    return 0;
 };
 
 
@@ -475,6 +605,7 @@ export {
     StartLoad,
     StopLoad,
     MakeBountyElement,
+    MakeItemElement,
     RedirUser,
     InsertSeperators,
     CapitilizeFirstLetter,
@@ -488,6 +619,7 @@ export {
     CalculatePercentage,
     ReturnSeasonPassLevel,
     LoadPrimaryCharacter,
+    LoadWeapons,
     CacheAuditItem,
     CacheRemoveItem,
     CacheReturnItem

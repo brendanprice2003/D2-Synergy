@@ -6,10 +6,10 @@ import { ValidateManifest, ReturnEntry } from './utils/ValidateManifest.js';
 import {
     VerifyState,
     ParseChar,
-    Logout,
     StartLoad,
     StopLoad,
     MakeBountyElement,
+    MakeItemElement,
     RedirUser,
     InsertSeperators,
     CapitilizeFirstLetter,
@@ -23,8 +23,7 @@ import {
     ReturnSeasonPassLevel,
     LoadPrimaryCharacter,
     CacheAuditItem,
-    CacheRemoveItem,
-    CacheReturnItem } from './utils/ModuleScript.js';
+    LoadWeapons } from './utils/ModuleScript.js';
 import {
     itemTypeKeys,
     vendorKeys,
@@ -32,8 +31,6 @@ import {
     petraYields } from './utils/SynergyDefinitions.js';
 import { bountyPropCount, PushProps } from './utils/MatchProps.js';
 import { AddEventListeners } from './utils/Events.js';
-
-debugger;
 
 // Validate state parameter
 VerifyState();
@@ -75,12 +72,18 @@ userStruct.homeUrl = '';
 userStruct.bools = {};
 userStruct.ints = {};
 userStruct.objs = {};
+userStruct.characterWeapons = {
+    Kinetic: [],
+    Energy: [],
+    Power: []
+};
 
 // Push data
 userStruct.objs.currView = document.getElementById('pursuitsContainer');
 userStruct.bools.characterLoadToggled = false;
 userStruct.ints.refreshTime = new Date();
 userStruct.bools.filterToggled = false;
+userStruct.bools.characterWeaponsLoaded = false;
 CacheAuditItem('refreshInterval', 5*60000);
 
 
@@ -308,7 +311,7 @@ var FetchBungieUserDetails = async () => {
             document.getElementById(`classLight${char.classType}`).innerHTML = `${char.light}`;
         };
 
-        // Push relevant items to the browser
+        // Push relevant items to the global scope
         userStruct['characters'] = characters;
 
         // Change DOM content
@@ -322,7 +325,7 @@ var FetchBungieUserDetails = async () => {
 // Load character from specific index
 var LoadCharacter = async (classType, isRefresh) => {
 
-    if (!userStruct.characterLoadToggled) {
+    if (!userStruct.bools.characterLoadToggled) {
 
         // Configure load sequence
         document.getElementById('loadingText').innerHTML = 'Indexing Character';
@@ -334,6 +337,8 @@ var LoadCharacter = async (classType, isRefresh) => {
             CharacterProgressions,
             CharacterInventories,
             CharacterObjectives,
+            ProfileInventory,
+            CharacterEquipment,
             seasonPassInfo = {},
             seasonPassLevel = 0,
             prestigeSeasonInfo,
@@ -344,7 +349,7 @@ var LoadCharacter = async (classType, isRefresh) => {
 
 
         // Toggle character load
-        userStruct.characterLoadToggled = true;
+        userStruct.bools.characterLoadToggled = true;
         CacheAuditItem('lastChar', classType);
             
         // Clear DOM content
@@ -379,18 +384,33 @@ var LoadCharacter = async (classType, isRefresh) => {
 
         // OAuth header guarantees a response
         if (!sessionCache.resCharacterInventories || isRefresh) {
-            let resCharacterInventories = await axios.get(`https://www.bungie.net/Platform/Destiny2/${membershipType}/Profile/${destinyMemberships.primaryMembershipId}/?components=100,201,202,205,300,301`, {headers: {Authorization: `Bearer ${JSON.parse(localStorage.getItem('accessToken')).value}`,"X-API-Key": `${axiosHeaders.ApiKey}`}});
-                CharacterInventories = resCharacterInventories.data.Response.characterInventories.data;
-                CurrentSeasonHash = resCharacterInventories.data.Response.profile.data.currentSeasonHash;
-                CharacterProgressions = resCharacterInventories.data.Response.characterProgressions.data[characterId].progressions;
-                CharacterObjectives = resCharacterInventories.data.Response.itemComponents.objectives.data;
-                sessionCache.resCharacterInventories = resCharacterInventories;
+
+            let resCharacterInventories = await axios.get(`https://www.bungie.net/Platform/Destiny2/${membershipType}/Profile/${destinyMemberships.primaryMembershipId}/?components=100,102,201,202,205,300,301`, {headers: {Authorization: `Bearer ${JSON.parse(localStorage.getItem('accessToken')).value}`,"X-API-Key": `${axiosHeaders.ApiKey}`}}),
+                rt = resCharacterInventories.data.Response;
+
+            ProfileInventory = rt.profileInventory.data;
+            CharacterEquipment = rt.characterEquipment.data[characterId];
+            CharacterInventories = rt.characterInventories.data;
+            CurrentSeasonHash = rt.profile.data.currentSeasonHash;
+            CharacterProgressions = rt.characterProgressions.data[characterId].progressions;
+            CharacterObjectives = rt.itemComponents.objectives.data;
+            sessionCache.resCharacterInventories = resCharacterInventories;
         }
         else if (sessionCache.resCharacterInventories) {
-                CharacterInventories = sessionCache.resCharacterInventories.data.Response.characterInventories.data;
-                CurrentSeasonHash = sessionCache.resCharacterInventories.data.Response.profile.data.currentSeasonHash;
-                CharacterProgressions = sessionCache.resCharacterInventories.data.Response.characterProgressions.data[characterId].progressions;
-                CharacterObjectives = sessionCache.resCharacterInventories.data.Response.itemComponents.objectives.data;
+
+            let rt = sessionCache.resCharacterInventories.data.Response;
+
+            ProfileInventory = rt.profileInventory.data;
+            CharacterEquipment = rt.characterEquipment.data[characterId];
+            CharacterInventories = rt.characterInventories.data;
+            CurrentSeasonHash = rt.profile.data.currentSeasonHash;
+            CharacterProgressions = rt.characterProgressions.data[characterId].progressions;
+            CharacterObjectives = rt.itemComponents.objectives.data;
+        };
+
+        // Load and sort weapons from vault and inventories
+        if (!userStruct.bools.characterWeaponsLoaded) {
+            LoadWeapons(ProfileInventory, CharacterInventories, definitions, characterId);
         };
 
         // Iterate over CharacterInventories[characterId].items
@@ -458,7 +478,7 @@ var LoadCharacter = async (classType, isRefresh) => {
         // Load synergyDefinitions and match against bounties
         await PushProps();
         await CreateFilters('charBounties', bountyPropCount);
-        userStruct.characterLoadToggled = false;
+        userStruct.bools.characterLoadToggled = false;
 
         // Toggle elements
         document.getElementById('loadingContentContainer').style.display = 'none';
@@ -467,6 +487,7 @@ var LoadCharacter = async (classType, isRefresh) => {
 
         // Stop loading sequence
         StopLoad();
+        userStruct.bools.charsLoaded = true;
     };
 };
 

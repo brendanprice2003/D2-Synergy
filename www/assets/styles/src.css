@@ -24,19 +24,53 @@ html, body {
     top: 0;
     height: 45px;
     width: 100vw;
+    z-index: 1;
     background-color: #202020;
 }
 #navBarIcon {
     width: 45px;
 }
 #navBarIconContainer {
-    display: inline-block;
-    margin-left: 10px;
+    margin-left: 15px;
+    float: left;
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
 }
+#rightNavbarContent {
+    margin-top: 10px;
+    margin-right: 15px;
+    float: right;
+}
+
+#navBarHelpContainer {
+    display: inline-block;
+    margin-right: 10px;
+    cursor: pointer;
+}
+#navBarHelp {
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    width: 30px;
+    border: 1px solid gray;
+    border-radius: 4px;
+    color: gray;
+    font-family: "Neue Haas Grotesk Display", "Destiny Symbols", Segoe-MDL, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", NotoColorEmoji, "Segoe UI Symbol", "Android Emoji", EmojiSymbols;
+    font-size: 15px;
+    transition: 0.25s;
+}
+#navBarHelp:hover {
+    color: white;
+    border-color: white;
+    transition: 0.25s;
+}
+
 #navBarLogoutContainer {
-    position: absolute;
-    margin-top: -37px;
-    right: 1%;
+    display: inline-block;
     cursor: pointer;
 }
 #navBarLogout {
@@ -50,11 +84,6 @@ html, body {
     color: gray;
     font-family: "Neue Haas Grotesk Display", "Destiny Symbols", Segoe-MDL, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", NotoColorEmoji, "Segoe UI Symbol", "Android Emoji", EmojiSymbols;
     font-size: 15px;
-    user-select: none;
-    -moz-user-select: none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    -o-user-select: none;
     transition: 0.25s;
 }
 #navBarLogout:hover {
@@ -156,22 +185,28 @@ html, body {
 }
 
 
+/* Text Tags */
+h3 {
+    color: rgb(205, 203, 203);
+    font-size: 16px;
+    font-family: "Neue Haas Grotesk Display", "Destiny Symbols", Segoe-MDL, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", NotoColorEmoji, "Segoe UI Symbol", "Android Emoji", EmojiSymbols;
+}
+
+
 /* Scrollbar */
 ::-webkit-scrollbar { /* Width */
     width: 7px;
+    height: 7px;
 }
 ::-webkit-scrollbar-track { /* Track */
-    background: none;
+    background: rgb(70, 70, 70);
 }
 ::-webkit-scrollbar-thumb { /* Handle */
-    background: rgb(116, 116, 116); 
+    background: rgb(48, 48, 48);
     border-radius: 12px;
 }
 ::-webkit-scrollbar-thumb:hover { /* Handle on hover */
-    background: #555;
-}
-::-webkit-scrollbar { /* Temporary? */
-    display: none;
+    background: rgb(35, 35, 35);
 }
 
 
@@ -188,7 +223,7 @@ html, body {
     border: 1px dashed gray;
     border-radius: 4px;
     opacity: 90%;
-}
+}   
 #errorTitle {
     margin-bottom: 15px;
     margin-left: 15px;
@@ -209,7 +244,8 @@ html, body {
 
 /* Misc */
 hr.titleBreaker {
-    display: absolute;
+    width: 97%;
+    margin-left: 0;
     opacity: 20%;
     color: #555;
     border: 1px solid grey;

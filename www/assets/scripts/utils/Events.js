@@ -15,6 +15,11 @@ const AddEventListeners = async () => {
         Logout();
     });
 
+    // Help button listener
+    document.getElementById('navBarHelpContainer').addEventListener('click', () => {
+        // AssistGuardian();  :)
+    });
+
     // Hover events for "Current Yield" query
     document.getElementById('statsTitleQuery').addEventListener('mousemove', () => {
         document.getElementById('queryDiv').style.display = 'block';
@@ -45,24 +50,44 @@ const AddEventListeners = async () => {
 
     // Events for character menu buttons
     document.getElementById('cgDefaultLoadouts').addEventListener('click', () => {
+
         userStruct.objs.currView.style.display = 'none';
+
+        document.getElementById('statsContainer').style.display = 'none';
+        document.getElementById('weaponsContainer').style.display = 'block';
         document.getElementById('loadoutsContainer').style.display = 'block';
+
         userStruct.objs.currView = document.getElementById('loadoutsContainer');
     });
     document.getElementById('cgPursuits').addEventListener('click', () => {
+
         userStruct.objs.currView.style.display = 'none';
+
         document.getElementById('pursuitsContainer').style.display = 'block';
+        document.getElementById('statsContainer').style.display = 'block';
+        document.getElementById('weaponsContainer').style.display = 'none';
+
         userStruct.objs.currView = document.getElementById('pursuitsContainer');
     });
     document.getElementById('cgLevelsProgression').addEventListener('click', () => {
+
         userStruct.objs.currView.style.display = 'none';
+
         document.getElementById('progressionContainer').style.display = 'block';
+        document.getElementById('statsContainer').style.display = 'block';
+        document.getElementById('weaponsContainer').style.display = 'none';
+
         userStruct.objs.currView = document.getElementById('progressionContainer');
     });
 
     document.getElementById('btnSynergyView').addEventListener('click', () => {
+
         userStruct.objs.currView.style.display = 'none';
+
         document.getElementById('synergyContainer').style.display = 'block';
+        document.getElementById('statsContainer').style.display = 'block';
+        document.getElementById('weaponsContainer').style.display = 'none';
+
         userStruct.objs.currView = document.getElementById('synergyContainer');
     });
 

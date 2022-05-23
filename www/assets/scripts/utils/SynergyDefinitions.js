@@ -147,6 +147,49 @@ const DamageTypeHash = {
     Stasis: 151347233, // 4
 };
 
+// Sub types for general items (weapons, armor) 
+const ItemSubTypes = {
+    None: 0,
+    Exotic: 5,
+    AutoRifle: 6,
+    Shotgun: 7,
+    Machinegun: 8,
+    HandCannon: 9,
+    RocketLauncher: 10,
+    FusionRifle: 11,
+    SniperRifle: 12,
+    PulseRifle: 13,
+    ScoutRifle: 14,
+    Crm: 16,
+    Sidearm: 17,
+    Sword: 18,
+    Mask: 19,
+    Shader: 20,
+    Ornament: 21,
+    FusionRifleLine: 22,
+    GrenadeLauncher: 23,
+    SubmachineGun: 24,
+    TraceRifle: 25,
+    HelmetArmor: 26,
+    GauntletsArmor: 27,
+    ChestArmor: 28,
+    LegArmor: 29,
+    ClassArmor: 30,
+    Bow: 31,
+    Glaive: 33
+};
+
+// Categorized item subTypes
+const enumDamageType = {
+    None: 0,
+    Kinetic: 1,
+    Arc: 2,
+    Thermal: 3,
+    Void: 4,
+    Raid: 5,
+    Stasis: 6
+};
+
 // Indexes for crucible game modes
 const CrucibleGameModes = {
     'mayhem': 4, 
@@ -275,8 +318,10 @@ export {
   ActivityMode,
   Destination,
   DamageType,
+  ItemSubTypes,
   AmmoType,
   ItemCategory,
   KillType,
   CrucibleGameModes,
+  enumDamageType
 };

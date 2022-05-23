@@ -17,11 +17,18 @@
 
 <body>
     <div id="navBarContainer">
+
         <div id="navBarIconContainer">
             <img id="navBarIcon" src="assets/icons/ghost.webp">
         </div>
-        <div id="navBarLogoutContainer">
-            <div id="navBarLogout">Log Out</div>
+
+        <div id="rightNavbarContent">
+            <div id="navBarHelpContainer">
+                <div id="navBarHelp">Help</div>
+            </div>
+            <div id="navBarLogoutContainer">
+                <div id="navBarLogout">Log Out</div>
+            </div>
         </div>
     </div>
     
@@ -85,7 +92,23 @@
                 </div>
                 <div id="btnSynergyView">View Synergy</div>
             </div>
+
+            <div id="weaponsContainer">
+                <div id="kineticContainer">
+                    <div>Kinetic</div>
+                    <div id="kineticWeapons"></div>
+                </div>
+                <div id="energyContainer">
+                    <div>Energy</div>
+                    <div id="energyWeapons"></div>
+                </div>
+                <div id="powerContainer">
+                    <div>Power</div>
+                    <div id="powerWeapons"></div>
+                </div>
+            </div>
         </div>
+
         <div id="loadingContentContainer">
             <img id="loadingIcon" src="assets/icons/rocketShip.webp">
             <div id="loadingText">Loading</div>
@@ -101,6 +124,18 @@
             <div id="loadoutsContainer">
                 <div id="displayTitle_Loadouts" class="containerTitle">Default Loadouts</div>
                 <hr class="titleBreaker">
+                <div>
+                    <h3>Kinetic Weapons</h3>
+                    <div id="kineticItems"></div>
+                </div>
+                <div>
+                    <h3>Energy Weapons</h3>
+                    <div id="energyItems"></div>
+                </div>
+                <div>
+                    <h3>Power Weapons</h3>
+                    <div id="powerItems"></div>
+                </div>
             </div>
 
             <div id="pursuitsContainer">
@@ -151,6 +186,7 @@
         </div>
     </div>
 
+    <div id="chosenOverlays"></div>
     <div id="overlays"></div>
 <!-- 
     <div id="errorContainer">
