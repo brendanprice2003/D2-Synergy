@@ -155,13 +155,14 @@ const MakeBountyElement = async (param) => {
         param.areObjectivesComplete = false;
     };
 
-    // Mark item as expired
+    // Mark item as expired/completed
     if (param.isExpired && !param.areObjectivesComplete) {
         itemStatus.className = `expire`;
         itemStatus.id = `expire_${param.hash}`;
         itemStatus.src = './assets/icons/pursuitExpired.svg';
     }
     else if (param.areObjectivesComplete) {
+        item.style.borderColor = 'rgb(182,137,67)';
         itemStatus.className = `complete`;
         itemStatus.id = `complete_${param.hash}`;
         itemStatus.src = './assets/icons/pursuitCompleted.svg';

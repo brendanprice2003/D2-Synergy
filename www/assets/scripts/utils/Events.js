@@ -28,6 +28,17 @@ const AddEventListeners = async () => {
         document.getElementById('queryDiv').style.display = 'none';
     });
 
+    // Events for drag and drop
+    document.getElementById('weaponsContainer').addEventListener('mouseenter', () => {
+        // Change cursor
+        // Add a gray tint to weaponsContainer
+        // Add text saying "Drop Weapon" or something..
+    });
+    
+    document.getElementById('weaponsContainer').addEventListener('mouseleave', () => {
+        // Undo all changes made in the mouseenter event
+    });
+
     // Remove filters button
     document.getElementById('removeFiltersID').addEventListener('click', () => {
 
