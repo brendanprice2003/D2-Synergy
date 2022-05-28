@@ -184,12 +184,12 @@ const MakeBountyElement = async (param) => {
 
 
 // Make general item element
-const MakeItemElement = (param, type) => {
+const MakeItemElement = async (param, type, newHash) => {
 
     let item = document.createElement('img');
 
     item.className = 'item2 grabElement';
-    item.id = `item_${param.hash}_${param.subWeaponTypeIdentifier}`;
+    item.id = `item_${newHash}_${param.subWeaponTypeIdentifier}`;
     item.draggable = true;
     item.src = `https://www.bungie.net/${param.displayProperties.icon}`;
     document.querySelector(`#${type.toLowerCase()}Items`).appendChild(item);
@@ -216,9 +216,11 @@ const LoadWeapons = async (profileInventory, characterInventories, definitions) 
     profileInventory.items.forEach(v => {
 
         let rt = definitions[v.itemHash];
+
         if (rt.itemType === 3) {
             
             let typeIdentifier = equippingBlockDefinition[rt.equippingBlock.equipmentSlotTypeHash].displayProperties.name.split(' ')[0]; // "Kinetic", etc.
+
             if (typeIdentifier === 'Kinetic') {
                 rt.subWeaponTypeIdentifier = typeIdentifier;
                 rt.weaponRarityLevel = rt.itemTypeAndTierDisplayName.split(' ')[0];
@@ -237,16 +239,18 @@ const LoadWeapons = async (profileInventory, characterInventories, definitions) 
         };
     });
 
+    // Load and push character inventory contents
     Object.keys(userStruct['characters']).forEach(characterId => {
 
-        // Load and push character contents
         if (Object.keys(characterInventories[characterId].items).length !== 0) {
             characterInventories[characterId].items.forEach(v => {
 
                 let rt = definitions[v.itemHash];
+
                 if (rt.itemType === 3) {
-    
+
                     let typeIdentifier = bucketDefinition[v.bucketHash].displayProperties.name.split(' ')[0]; // "Kinetic", etc.
+
                     if (typeIdentifier === 'Kinetic') {
                         rt.subWeaponTypeIdentifier = typeIdentifier;
                         rt.weaponRarityLevel = rt.itemTypeAndTierDisplayName.split(' ')[0];
@@ -267,17 +271,23 @@ const LoadWeapons = async (profileInventory, characterInventories, definitions) 
         };
     });
 
-
-    // Loop over each children array in characterWeapons and sort via rarity
-    // Loop over each children array in characterWeapons and sort via power // TBA
-    // Push items to DOM
     userStruct.characterWeapons.Kinetic.sort(SortByRarity);
     userStruct.characterWeapons.Energy.sort(SortByRarity);
     userStruct.characterWeapons.Power.sort(SortByRarity);
 
-    userStruct.characterWeapons.Kinetic.forEach(v => MakeItemElement(v, v.subWeaponTypeIdentifier));
-    userStruct.characterWeapons.Energy.forEach(v => MakeItemElement(v, v.subWeaponTypeIdentifier));
-    userStruct.characterWeapons.Power.forEach(v => MakeItemElement(v, v.subWeaponTypeIdentifier));
+    var newHash = 0;
+    userStruct.characterWeapons.Kinetic.forEach(v => {
+        MakeItemElement(v, v.subWeaponTypeIdentifier, newHash);
+        newHash++;
+    });
+    userStruct.characterWeapons.Energy.forEach(v => {
+        MakeItemElement(v, v.subWeaponTypeIdentifier, newHash);
+        newHash++;
+    });
+    userStruct.characterWeapons.Power.forEach(v => {
+        MakeItemElement(v, v.subWeaponTypeIdentifier, newHash);
+        newHash++;
+    });
 };
 
 

@@ -180,7 +180,6 @@ h2 {
 /* char selects */
 
 #sideSelectionBar {
-    border: 1px solid green;
     position: fixed;
     display: grid;
     margin-top: 15px;
@@ -354,18 +353,20 @@ h2 {
 
 #kineticWeapons {
     margin-top: 4px;
-    height: 75px;
-    border: 1px solid red;
+    height: 130px;
+    border: 1px solid rgb(155, 153, 173);
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 #energyWeapons {
     margin-top: 4px;
-    height: 75px;
-    border: 1px solid red;
+    height: 130px;
+    border: 1px solid rgb(155, 153, 173);
 }
 
 #powerWeapons {
     margin-top: 4px;
-    height: 75px;
-    border: 1px solid red;
+    height: 130px;
+    border: 1px solid rgb(155, 153, 173);
 }

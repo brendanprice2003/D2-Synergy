@@ -80,7 +80,7 @@ const ActivityModeBuilder = (index, entry, property) => {
     if (index === 3) {
         for (var gameMode in CrucibleGameModes) {
             if (CrucibleGameModes[gameMode] in entry[property]) {
-                log(entry[property]);
+                // log(entry[property]);
             };
         };
         // entry[property].push(4,5,6,7,8,9,10,11,12,13,17,21,22,23,24,25);
