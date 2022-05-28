@@ -8,6 +8,10 @@
 
 D2 Synergy is a powerful application that allows players to view items, change configurations, and make decisions based on the number of relationships between their progressional items, ensuring maximum XP gain is accquired.
 
+### Technical User Guide
+
+See `GUIDE.md`.
+
 ### Contributing
 
 See `CONTRIBUTE.md` for more information.
