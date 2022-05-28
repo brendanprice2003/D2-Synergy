@@ -189,6 +189,7 @@ const MakeItemElement = (param, type) => {
     let item = document.createElement('img');
 
     item.className = 'item2 grabElement';
+    item.id = `item_${param.hash}_${param.subWeaponTypeIdentifier}`;
     item.draggable = true;
     item.src = `https://www.bungie.net/${param.displayProperties.icon}`;
     document.querySelector(`#${type.toLowerCase()}Items`).appendChild(item);
@@ -196,8 +197,8 @@ const MakeItemElement = (param, type) => {
     var img = document.createElement("img");
         img.src = `https://www.bungie.net/${param.displayProperties.icon}`;
 
-    item.addEventListener("dragstart", (e) => {
-        e.dataTransfer.setDragImage(img, 0, 0);
+    item.addEventListener('dragstart', (ev) => {
+        ev.dataTransfer.setData('text', ev.target.id);
     });
 };
 

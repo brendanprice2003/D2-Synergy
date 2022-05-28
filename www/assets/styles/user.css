@@ -180,11 +180,12 @@ h2 {
 /* char selects */
 
 #sideSelectionBar {
+    border: 1px solid green;
     position: fixed;
     display: grid;
     margin-top: 15px;
     margin-left: 15px;
-    width: 15%;
+    width: 220px;
 }
 
 #charactersContainer {

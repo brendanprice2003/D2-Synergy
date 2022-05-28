@@ -1,4 +1,4 @@
-import { get, set } from 'https://cdn.jsdelivr.net/npm/idb-keyval@6/+esm';
+import { get, set, clear } from 'https://cdn.jsdelivr.net/npm/idb-keyval@6/+esm';
 
 const requiredTables = [
     'DestinyInventoryItemDefinition',
@@ -18,7 +18,7 @@ var log = console.log.bind(console),
 const ReturnComponentSuffix = async (entry) => {
 
     manifest = await axios.get(`https://www.bungie.net/Platform/Destiny2/Manifest/`);
-    var components = manifest.data.Response.jsonWorldComponentContentPaths[window.navigator.language.split('-')[0]];
+    let components = manifest.data.Response.jsonWorldComponentContentPaths[window.navigator.language.split('-')[0]];
 
     return components[entry];
 };
@@ -26,22 +26,40 @@ const ReturnComponentSuffix = async (entry) => {
 
 
 // Check if each (required) table exists
-const ValidateTables = async () => {
+const ValidateTables = async (isNewManifestVersionRequired) => {
 
-    for (var table of requiredTables) {
+    for (let table of requiredTables) {
 
-        var entry = await get(table);
+        let entry = await get(table);
         if (!entry) {
 
             // Avoid CORS policies
             delete axios.defaults.headers.common['X-API-Key'];
 
             // Request/Set new table
-            var suffix = await ReturnComponentSuffix(table),
+            let suffix = await ReturnComponentSuffix(table),
                 newTable = await axios.get(`https://www.bungie.net${suffix}`);
 
             set(table, newTable.data);
         };
+    };
+};
+
+
+
+// Update the manifest when a new version is out
+const UpdateManifest = async () => {
+
+    clear(); // Wipe idb bc :)
+    for (let table of requiredTables) {
+
+        // Avoid gat damn CORS policies
+        delete axios.defaults.headers.common['X-API-Key'];
+
+        let suffix = await ReturnComponentSuffix(table),
+            newTable = await axios.get(`https://www.bungie.net${suffix}`);
+        
+        set(table, newTable.data); // Set new table, yay
     };
 };
 
@@ -57,12 +75,13 @@ const ValidateManifest = async () => {
         document.getElementById('loadingText').innerHTML = 'Downloading New Manifest';
 
         // Fetch manifest
-        var localStorageManifestVersion = window.localStorage.getItem('destinyManifestVersion');
+        let localStorageManifestVersion = window.localStorage.getItem('destinyManifestVersion');
         manifest = await axios.get(`https://www.bungie.net/Platform/Destiny2/Manifest/`);
 
         // Check manifest version
         if (localStorageManifestVersion !== manifest.data.Response.version) {
-            await ValidateTables();
+            log(localStorageManifestVersion, manifest.data.Response.version);
+            await UpdateManifest();
             window.localStorage.setItem('destinyManifestVersion', manifest.data.Response.version);
         };
     };
@@ -73,7 +92,7 @@ const ValidateManifest = async () => {
 // Return passed component
 const ReturnEntry = async (entry) => {
 
-    var res = await get(entry);
+    let res = await get(entry);
     if (!res) {
         await ValidateTables();
         res = await get(entry);

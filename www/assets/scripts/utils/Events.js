@@ -1,6 +1,10 @@
 import { LoadCharacter, userStruct } from '../user.js';
 import { CacheReturnItem, Logout } from './ModuleScript.js';
 
+const log = console.log.bind(console);
+
+
+// Adds all event listeners for DOM elements
 const AddEventListeners = async () => {
 
     // Add listeners for buttons
@@ -26,17 +30,6 @@ const AddEventListeners = async () => {
     });
     document.getElementById('statsTitleQuery').addEventListener('mouseleave', () => {
         document.getElementById('queryDiv').style.display = 'none';
-    });
-
-    // Events for drag and drop
-    document.getElementById('weaponsContainer').addEventListener('mouseenter', () => {
-        // Change cursor
-        // Add a gray tint to weaponsContainer
-        // Add text saying "Drop Weapon" or something..
-    });
-    
-    document.getElementById('weaponsContainer').addEventListener('mouseleave', () => {
-        // Undo all changes made in the mouseenter event
     });
 
     // Remove filters button
@@ -131,7 +124,30 @@ const AddEventListeners = async () => {
             };
         };
     });
+
+    // Event listeners for drag and drop functionality
+    let weaponsContainer = document.getElementById('weaponsContainer'),
+        loadoutsContainer = document.getElementById('loadoutsContainer');
+
+    weaponsContainer.addEventListener('dragover', (ev) => ev.preventDefault());
+
+    weaponsContainer.addEventListener('dragstart', (ev) => {
+        ev.dataTransfer.setData('text', ev.target.id);
+    });
+
+    weaponsContainer.addEventListener('drop', (ev) => {
+
+        ev.preventDefault();
+
+        let data = ev.dataTransfer.getData('text'),
+            type = document.getElementById(data).id.split('_')[2].toLowerCase();
+        document.getElementById(`${type}Weapons`).appendChild(document.getElementById(data));
+        // log();
+    });
     
 };
+
+
+
 
 export { AddEventListeners };
