@@ -363,10 +363,14 @@ h2 {
     margin-top: 4px;
     height: 130px;
     border: 1px solid rgb(155, 153, 173);
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 #powerWeapons {
     margin-top: 4px;
     height: 130px;
     border: 1px solid rgb(155, 153, 173);
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
