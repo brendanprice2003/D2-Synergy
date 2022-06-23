@@ -116,6 +116,7 @@ const AddEventListeners = async () => {
             userStruct.ints.refreshTime = new Date();
         };
     }, CacheReturnItem('refreshInterval'));
+
     document.addEventListener('visibilitychange', event => {
         if (document.visibilityState === 'visible') {
             if ((new Date() - userStruct.ints.refreshTime)/1000 > CacheReturnItem('refreshInterval')) {
@@ -125,26 +126,25 @@ const AddEventListeners = async () => {
         };
     });
 
-    // Event listeners for drag and drop functionality
-    let weaponsContainer = document.getElementById('weaponsContainer'),
-        loadoutsContainer = document.getElementById('loadoutsContainer');
+    // // Event listeners for drag and drop functionality
+    // let weaponsContainer = document.getElementById('weaponsContainer'),
+    //     loadoutsContainer = document.getElementById('loadoutsContainer');
 
-    weaponsContainer.addEventListener('dragover', (ev) => ev.preventDefault());
+    // weaponsContainer.addEventListener('dragover', (ev) => ev.preventDefault());
 
-    weaponsContainer.addEventListener('dragstart', (ev) => {
-        ev.dataTransfer.setData('text', ev.target.id);
-    });
+    // weaponsContainer.addEventListener('dragstart', (ev) => {
+    //     ev.dataTransfer.setData('text', ev.target.id);
+    // });
 
-    weaponsContainer.addEventListener('drop', (ev) => {
+    // weaponsContainer.addEventListener('drop', (ev) => {
 
-        ev.preventDefault();
+    //     ev.preventDefault();
 
-        let data = ev.dataTransfer.getData('text'),
-            type = document.getElementById(data).id.split('_')[2].toLowerCase();
-        document.getElementById(`${type}Weapons`).appendChild(document.getElementById(data));
-        // log();
-    });
-    
+    //     let data = ev.dataTransfer.getData('text'),
+    //         type = document.getElementById(data).id.split('_')[2].toLowerCase();
+    //     document.getElementById(`${type}Weapons`).appendChild(document.getElementById(data));
+    //     // log();
+    // });
 };
 
 

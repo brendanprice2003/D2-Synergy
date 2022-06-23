@@ -330,7 +330,6 @@ h2 {
 }
 
 
-
 #weaponsContainer {
     display: none;
     margin-top: 50px;
@@ -354,7 +353,7 @@ h2 {
 #kineticWeapons {
     margin-top: 4px;
     height: 130px;
-    border: 1px solid rgb(155, 153, 173);
+    border: 1px solid rgb(173, 173, 173);
     overflow-x: hidden;
     overflow-y: scroll;
 }
@@ -362,7 +361,7 @@ h2 {
 #energyWeapons {
     margin-top: 4px;
     height: 130px;
-    border: 1px solid rgb(155, 153, 173);
+    border: 1px solid rgb(173, 173, 173);
     overflow-x: hidden;
     overflow-y: scroll;
 }
@@ -370,7 +369,7 @@ h2 {
 #powerWeapons {
     margin-top: 4px;
     height: 130px;
-    border: 1px solid rgb(155, 153, 173);
+    border: 1px solid rgb(173, 173, 173);
     overflow-x: hidden;
     overflow-y: scroll;
 }

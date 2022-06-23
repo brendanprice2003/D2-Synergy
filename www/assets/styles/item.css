@@ -1,7 +1,7 @@
 /**
  * #.# Seperate item style
  *
- * Every reference of an item in the DOM, will use this style script to apply style
+ * Style of general items (Bounties)
  */
 
 .itemContainer {
@@ -13,29 +13,6 @@
     backdrop-filter: blur(6px);
     border: 1px solid rgba(87, 87, 87, 0.66);
     z-index: 10;
-}
-
-.itemContainer2 {
-    position: relative;
-    display: none;
-    width: 100px;
-    background-color: rgba(0, 0, 0, 0.639);
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(87, 87, 87, 0.66);
-    z-index: 10;
-}
-
-.grabElement {
-    cursor: move;
-    cursor: grab;
-    cursor: -moz-grab;
-    cursor: -webkit-grab;
-}
-
-.grabbable:active {
-    cursor: grabbing;
-    cursor: -moz-grabbing;
-    cursor: -webkit-grabbing;
 }
 
 .items > div {
@@ -50,15 +27,6 @@
     margin-left: 2px;
     margin-right: 2px;
     width: 55px;
-    border: 1px solid rgba(200, 200, 200, 0.749);
-    border-radius: 1px;
-    z-index: 1;
-}
-
-.item2 {
-    margin-left: 2px;
-    margin-right: 2px;
-    width: 45px;
     border: 1px solid rgba(200, 200, 200, 0.749);
     border-radius: 1px;
     z-index: 1;

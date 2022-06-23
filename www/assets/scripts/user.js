@@ -503,7 +503,7 @@ var CreateFilters = async (initArrStr, propCount) => {
         if (propCount[v] > 2) {
             
             let filterContainer = document.createElement('div'),
-                  filterContent = document.createElement('div');
+                filterContent = document.createElement('div');
 
             // Assign id's and classes + change innerHTML
             filterContainer.className = 'filter';
@@ -514,7 +514,11 @@ var CreateFilters = async (initArrStr, propCount) => {
 
             // Add filter to UserStruct
             userStruct['filterDivs'][`propName_${v}${propCount[v]}`] = {};
-            userStruct['filterDivs'][`propName_${v}${propCount[v]}`].element = filterContent;
+
+            let rt = userStruct['filterDivs'][`propName_${v}${propCount[v]}`];
+            rt.element = filterContent;
+            rt.filterName = v;
+            rt.count = propCount[v];
 
             // Append children elements to respective parent elements
             document.querySelector('#filters').appendChild(filterContainer);
@@ -542,10 +546,14 @@ var CreateFilters = async (initArrStr, propCount) => {
                 });
             });
         };
+
+        // Make elements for the synergy view
+        let synergyItem = document.createElement('div');
+
+        synergyItem.innerHTML = `${v}: ${propCount[v]}`;
+        document.getElementById(`synergyItems`).appendChild(synergyItem);
     };
 };
-
-
 
 
 // -- MAIN
@@ -570,8 +578,9 @@ var CreateFilters = async (initArrStr, propCount) => {
 
 })()
 .catch (error => {
-    document.getElementById('errorTitle').innerHTML = error.name;
-    document.getElementById('errorMessage').innerHTML = error.message;
+    console.error(error);
+    // document.getElementById('errorTitle').innerHTML = error.name;
+    // document.getElementById('errorMessage').innerHTML = error.message;
 });
 
 export { LoadCharacter, userStruct, homeUrl };

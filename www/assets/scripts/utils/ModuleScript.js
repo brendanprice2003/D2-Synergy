@@ -157,6 +157,7 @@ const MakeBountyElement = async (param) => {
 
     // Mark item as expired/completed
     if (param.isExpired && !param.areObjectivesComplete) {
+        item.style.borderColor = 'rgb(197, 65, 65)';
         itemStatus.className = `expire`;
         itemStatus.id = `expire_${param.hash}`;
         itemStatus.src = './assets/icons/pursuitExpired.svg';
@@ -186,19 +187,23 @@ const MakeBountyElement = async (param) => {
 // Make general item element
 const MakeItemElement = async (param, type, newHash) => {
 
-    let item = document.createElement('img');
+    let itemContainer = document.createElement('div'),
+        itemCloseContainer = document.createElement('div'),
+        itemIcon = document.createElement('img');
 
-    item.className = 'item2 grabElement';
-    item.id = `item_${newHash}_${param.subWeaponTypeIdentifier}`;
-    item.draggable = true;
-    item.src = `https://www.bungie.net/${param.displayProperties.icon}`;
-    document.querySelector(`#${type.toLowerCase()}Items`).appendChild(item);
+    itemContainer.id = 'weaponContainer';
+    document.querySelector(`#${type.toLowerCase()}Items`).appendChild(itemContainer);   
 
-    var img = document.createElement("img");
-        img.src = `https://www.bungie.net/${param.displayProperties.icon}`;
+    itemIcon.className = 'weaponIcon';
+    itemIcon.id = `weapon_${newHash}_${param.subWeaponTypeIdentifier}`;
+    itemIcon.src = `https://www.bungie.net/${param.displayProperties.icon}`;
+    itemContainer.appendChild(itemIcon);
 
-    item.addEventListener('dragstart', (ev) => {
-        ev.dataTransfer.setData('text', ev.target.id);
+    itemCloseContainer.id = 'weaponCloseContainer';
+    itemContainer.appendChild(itemCloseContainer);
+
+    itemContainer.addEventListener('click', () => {
+        log('bruh');
     });
 };
 
@@ -499,39 +504,34 @@ var CalcXpYield = (bountyArr, utils) => {
 
 
 // Calculate season pass information
-var CalculateXpForBrightEngram = async (seasonInfo, prestigeSeasonInfo, currentYield, seasonPassInfo) => {
+var CalculateXpForBrightEngram = async (seasonInfo, prestigeSeasonInfo) => {
 
-    const level = seasonInfo.level,
-    // const level = 128374,
-          prestigeLevel = prestigeSeasonInfo.level;
+    // log(seasonInfo, prestigeSeasonInfo);
+    let level = seasonInfo.level;
     if (level < 100) {
 
         // Assume a BE is every n3,n7 levels
-        let lastNum = parseInt(`${level}`.split('')[1]);
+        let lastNum = `${level}`.split('')[1];
         if (lastNum >= 3 && lastNum < 7) { // progress to level 7
-
+            log('d')
             let diff = 7 - lastNum,
                 fullLvls = diff-1, // fullLvls is levels that contain 100k xp
                 remainderXp = 0;
-
             remainderXp = (fullLvls * 100_000) + (100_000 - seasonInfo.progressToNextLevel);
-            log('XP until next BE: ', remainderXp);
         }
         else if (lastNum >= 7 || lastNum < 3) { // progress to level 3
-                
+            log('d')
             if (lastNum <= 9) {
                 if (lastNum >= 0 && lastNum < 3) {
-                    
+                    log('d')
                     let diff = 3 - lastNum,
                         fullLvls = diff-1;
-                    
                     return (fullLvls * 100_000) + (100_000 - seasonInfo.progressToNextLevel);
                 }
                 else {
-
+                    log('d')
                     let diff = 10 - lastNum,
                         fullLvls = diff + 3;
-                
                     return (fullLvls * 100_000) + (100_000 - seasonInfo.progressToNextLevel);
                 };
             };
@@ -542,15 +542,13 @@ var CalculateXpForBrightEngram = async (seasonInfo, prestigeSeasonInfo, currentY
         // Assume BE is every n0,n5 levels
         let lastNum = parseInt(`${level}`.split('')[`${level}`.length-1]);
         if (lastNum >= 5 && lastNum < 9) { // Progress for 10nth rank
-            
+            log('d')
             let fullLvls = 9 - lastNum;
-
             return (100_000 * fullLvls) + (100_000 - prestigeSeasonInfo.progressToNextLevel);
         }
         else if (lastNum >= 7 || lastNum < 3) { // Progress for 5nth rank
-
+            log('d')
             let fullLvls = 4 - lastNum;
-
             return (100_000 * fullLvls) + (100_000 - prestigeSeasonInfo.progressToNextLevel);
         };
     };

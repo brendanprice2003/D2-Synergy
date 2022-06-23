@@ -192,6 +192,7 @@ const enumDamageType = {
 
 // Indexes for crucible game modes
 const CrucibleGameModes = {
+    'crucible': 3,
     'mayhem': 4, 
     'control': 5, 
     'breakthrough': 6, 

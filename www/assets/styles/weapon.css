@@ -1,0 +1,39 @@
+
+#kineticItems {
+    width: 50px;
+}
+
+#kineticItems > div {
+    width: 50px;
+}
+
+.weaponContainer {
+    /* position: relative;
+    margin-left: 2px;
+    margin-right: 2px;
+    width: 50px;
+    height: 50px;
+    border: 1px solid rgba(200, 200, 200, 0.749);
+    border-radius: 1px;
+    cursor: pointer; */
+}
+
+#weaponCloseContainer {
+    position: absolute;
+    margin-top: -54px;
+    margin-left: 35px;
+    width: 15px;
+    height: 15px;
+    background-color: rgb(82, 82, 82);
+}
+
+#weaponClose {
+    width: 13px;
+    height: 13px;
+    filter: brightness(0) invert(1);
+}
+
+.weaponIcon {
+    width: 50px;
+    height: 50px;
+}

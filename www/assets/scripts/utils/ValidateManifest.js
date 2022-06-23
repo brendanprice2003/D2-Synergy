@@ -80,7 +80,7 @@ const ValidateManifest = async () => {
 
         // Check manifest version
         if (localStorageManifestVersion !== manifest.data.Response.version) {
-            log(localStorageManifestVersion, manifest.data.Response.version);
+            // log(localStorageManifestVersion, manifest.data.Response.version);
             await UpdateManifest();
             window.localStorage.setItem('destinyManifestVersion', manifest.data.Response.version);
         };
